@@ -42,7 +42,7 @@ const isDev = !app.isPackaged;
 
 const createWindow = () => {
   const win = new BrowserWindow({
-    title: "BGM Builder v1",
+    title: "体験版 BGM Builder v1",
     width: 1366,
     height: 768,
     minWidth: 1366,

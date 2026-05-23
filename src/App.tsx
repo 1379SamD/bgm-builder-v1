@@ -599,7 +599,7 @@ function App() {
           <div className="logo">♫</div>
           <div>
             <div className="title">
-              BGM Builder <span>v1</span>
+              体験版 BGM Builder <span>v1</span>
             </div>
           </div>
         </div>
@@ -664,10 +664,24 @@ function App() {
                 <input
                   type="checkbox"
                   checked={track.selected}
-                  onChange={() => toggleTrack(track.id)}
+                  onChange={() => {
+                    const selectedCount = tracks.filter(
+                      (t) => t.selected,
+                    ).length;
+
+                    // 未選択 → 選択しようとしている時だけ制限
+                    if (!track.selected && selectedCount >= 3) {
+                      alert("体験版では3曲まで選択できます。");
+                      return;
+                    }
+
+                    toggleTrack(track.id);
+                  }}
                 />
+
                 <span className={`music-icon ${track.color}`}>♪</span>
                 <span className="track-title">{track.title}</span>
+
                 <span className="duration">
                   {formatTime(track.durationSec)}
                 </span>
