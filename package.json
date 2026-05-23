@@ -1,5 +1,5 @@
 {
-  "name": "electron-template",
+  "name": "bgm-builder-v1",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +8,7 @@
     "dev": "concurrently \"vite\" \"npm run dev:electron\"",
     "dev:electron": "wait-on http://localhost:5173 && npm run build:electron && electron .",
     "build:electron": "npm run build:main && npm run build:preload",
-    "build:main": "esbuild electron/main.ts --bundle --platform=node --format=esm --outfile=dist-electron/main.mjs --external:electron",
+    "build:main": "esbuild electron/main.ts --bundle --platform=node --format=esm --outfile=dist-electron/main.mjs --external:electron --external:ffmpeg-static",
     "build:preload": "esbuild electron/preload.ts --bundle --platform=node --format=cjs --outfile=dist-electron/preload.cjs --external:electron",
     "build": "tsc -b && vite build && npm run build:electron",
     "dist": "npm run build && electron-builder",
@@ -16,6 +16,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "ffmpeg-static": "^5.3.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"
   },
@@ -34,9 +35,28 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
+    "png-to-ico": "^3.0.1",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.58.2",
     "vite": "^8.0.10",
     "wait-on": "^9.0.5"
+  },
+  "build": {
+    "appId": "com.isamu.bgmbuilder",
+    "productName": "BGM Builder",
+    "asar": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**",
+      "dist-electron/**",
+      "package.json",
+      "assets/**"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    }
   }
 }
